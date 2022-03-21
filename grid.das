@@ -30,7 +30,7 @@ class Grid
                 push(arr, int2(x_start + half_size + cell * self.size,
                     y_start + half_size + column * self.size))
             tab[column] <- arr
-        return tab
+        return <- tab
 
     //Draws grid for minigame dependent on amount of clomuns and rows, and cell sizes
     def draw()
