@@ -21,7 +21,7 @@ class Grid
     
     // Returns table with coordinates of center for every cell
     // Table format [row] = array<int2(x_coord, y_coord)>>
-    def get_coords()
+    def get_coords(): table<int; array<int2>>
         var half_size = self.size / 2
         var tab: table<int; array<int2>> 
         for column in range(self.rows)

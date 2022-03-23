@@ -1,23 +1,24 @@
 require daslib/media
+require player_checker
 
 class Checker
-    position: int2
-    radius: int = 20
+    tab_pos: int2
     color: uint
 
-    def Checker(Position: int2; Radius: int; Color: uint)
-        Checker`set(self, Position, Radius, Color)
+    position: int2
+    radius: int = 20
+
+    def Checker(Tab_pos:int2; Color: uint)
+        Checker`set(self, Tab_pos, Color)
         return
 
-    def set(Position: int2; Radius: int; Color: uint)
-        position = Position
-        radius = Radius
+    def set(Tab_pos:int2; Color: uint)
+        tab_pos = Tab_pos
         color = Color
         return
 
-    def info()
-        debug(self)
-        return
+    def set_position(var tab: table<int; array<int2>>)
+        self.position = tab[self.tab_pos.y][self.tab_pos.x]
     
     def draw()
         fill_circle(self.position.x, self.position.y, self.radius, self.color)

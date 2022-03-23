@@ -12,7 +12,7 @@ def initialize()
 
 [export]
 def act(dt: float)
-    minigame_act(dt)
+    minigame_act()
     if get_key(VK_ESCAPE)
         schedule_quit_game()
     return
