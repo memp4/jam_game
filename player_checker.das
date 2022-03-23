@@ -8,11 +8,11 @@ class Player_Checker
     radius: int = 20
     direction: string = "right"
 
-    def Player_Checker(Tab_pos:int2; Color: uint)
+    def Player_Checker(Tab_pos: int2; Color: uint)
         Player_Checker`set(self, Tab_pos, Color)
         return
     
-    def set(Tab_pos:int2; Color: uint)
+    def set(Tab_pos: int2; Color: uint)
         tab_pos = Tab_pos
         color = Color
         return
