@@ -2,11 +2,15 @@ require daslib/media
 require grid
 require checker
 require player_checker
-// Make class from minigame
+
 class Minigame
     p_checker: Player_Checker?
     check_arr: array<Checker?>
     grid: Grid?
+
+    start_p_pos: int2
+    start_checks_pos: array<int2>
+    start_checks_colors: array<uint>
 
     coord_tab: table<int; array<int2>>
     isFinished: bool = false
@@ -21,7 +25,18 @@ class Minigame
         grid = Grid
 
         coord_tab <- grid -> get_coords()
+
+        start_p_pos := p_checker.tab_pos
+        for i in check_arr 
+            push(start_checks_pos, i.tab_pos) 
+            push(start_checks_colors, i.color)
         return
+
+    def reset()
+        self.p_checker.tab_pos := start_p_pos
+        for i in range(length(check_arr))
+            check_arr[i].tab_pos := start_checks_pos[i]
+            check_arr[i].color := start_checks_colors[i]
 
     def swap()
         if self.p_checker.direction == "up"
@@ -115,6 +130,8 @@ class Minigame
             self -> swap()
         elif get_key_up(VK_SPACE)
             self -> jump()
+        elif get_key_up(VK_R)
+            self -> reset()
 
         self -> check_finish()
         return
@@ -127,35 +144,3 @@ class Minigame
 
         self.p_checker -> draw()
         return
-
-var grid1 = new Grid(5, 2, 100)
-
-var player_checker = new Player_Checker(int2(1, 0), 0xd48837)
-
-var 
-    checker1 = new Checker(int2(1, 1), player_checker.color)
-    checker2 = new Checker(int2(2, 0), 0xffffff)
-    checker3 = new Checker(int2(2, 1), 0xffffff)
-
-var checkers: array<Checker?>
-
-var cl_minigame = new Minigame(player_checker, checkers, grid1)
-
-def minigame_init()
-    push(checkers, checker1)
-    push(checkers, checker2)
-    push(checkers, checker3)
-    cl_minigame.check_arr <- checkers
-    debug(cl_minigame)
-    return
-
-def minigame_act()
-    cl_minigame -> update()
-    return
-
-def minigame_draw()
-    if cl_minigame.isFinished == true
-        text_out(500, 100, "You Win", 0xffffff)
-    else
-        cl_minigame -> draw()
-    return

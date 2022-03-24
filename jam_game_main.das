@@ -2,7 +2,7 @@ require daslib/media
 // options debugger            // uncomment for debug in VS Code
 // require daslib/debug        // uncomment for debug in VS Code
 require sprite_utility
-require minigame
+require minigames_manager
 
 [export]
 def initialize()
