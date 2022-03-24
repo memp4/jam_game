@@ -1,18 +1,20 @@
 require daslib/media
 // options debugger            // uncomment for debug in VS Code
 // require daslib/debug        // uncomment for debug in VS Code
-require sprite_utility
-require minigames_manager
+require minigame/minigames_manager
+require character
 
 [export]
 def initialize()
     set_window_title("Jam Game")
-    minigame_init()
+    // minigame_init()
+    character_init()
     return
 
 [export]
 def act(dt: float)
     minigame_act()
+    // character_act()
     if get_key(VK_ESCAPE)
         schedule_quit_game()
     return
@@ -20,5 +22,6 @@ def act(dt: float)
 [export]
 def draw()
     fill_rect(0, 0, get_screen_width(), get_screen_height(), 0x34495E)
-    minigame_draw()
+    // minigame_draw()
+    character_draw()
     return

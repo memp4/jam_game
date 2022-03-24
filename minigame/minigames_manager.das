@@ -4,6 +4,7 @@ require checker
 require player_checker
 require minigame
 
+// First game
 var m1_grid = new Grid(5, 2, 100)
 var m1_p_checker = new Player_Checker(int2(1, 0), 0xd48837)
 var 
@@ -14,6 +15,7 @@ var
 var m1_check_arr <- [{auto m1_checker1; m1_checker2; m1_checker3}]
 var m1_minigame = new Minigame(m1_p_checker, m1_check_arr, m1_grid)
 
+//Second game
 var m2_grid = new Grid(4, 4, 100)
 var m2_p_checker = new Player_Checker(int2(1, 1), 0x2b84f0)
 var 
@@ -43,7 +45,7 @@ def minigame_draw()
 
 def m_visual(var minigame: Minigame?)
     if minigame.isFinished == true
-        text_out(get_screen_width() / 2 - 20, 100, "You Win", 0xffffff)
+        text_out(get_screen_width() / 2 - 40, 100, "You Win", 0xffffff)
     else
         minigame -> draw()
     return
