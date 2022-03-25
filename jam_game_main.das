@@ -4,9 +4,13 @@ require daslib/media
 require minigame/minigames_manager
 require character
 
+var map <- create_managed_image("sprites/map.png")
+
 [export]
 def initialize()
     set_window_title("Jam Game")
+    debug(map.width)
+    debug(map.height)
     // minigame_init()
     character_init()
     return
@@ -21,7 +25,7 @@ def act(dt: float)
 
 [export]
 def draw()
-    fill_rect(0, 0, get_screen_width(), get_screen_height(), 0x34495E)
     // minigame_draw()
+    draw_image(map, 0, 0)
     character_draw()
     return

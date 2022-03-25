@@ -8,10 +8,10 @@ class Character
 
     sprite_grid: table<int; array<float4>>
 
-    velocity: float = 150.
+    velocity: float = 400.
     tab_pos: int2 = int2(0, 1)
 
-    fps: float = 20.
+    fps: float = 30.
     anim_timer: float 
     frame_start: int = 1
     frame: int
@@ -38,7 +38,7 @@ class Character
             self.anim_timer = 1. / fps
             self.frame += 1
             if self.frame > self.frame_limit
-                self.frame = self.frame_start
+                self.frame = 0
         return self.frame
 
     def act(dt: float)
@@ -58,6 +58,11 @@ class Character
             self.position.x -= self.velocity * dt
             self.tab_pos.x = 1
             self.tab_pos.y = self -> animation(dt)
+        else
+            self.tab_pos.y = 1
+
+        self.position.x = max(55., min(1350., self.position.x))
+        self.position.y = max(55., min(720., self.position.y))
         return
 
     def draw()
@@ -69,13 +74,22 @@ var half_height = float(get_screen_height() / 2)
 var half_width = float(get_screen_width() / 2)
 
 var robot = new Character(float2(half_width, half_height), float2(48., 48.), "sprites/robot.png")
+var cam_x: float
+var cam_y: float
 
 def character_init()
-    setup_2d_camera(float2(robot.position.x, robot.position.y), 2.)
+    debug(get_screen_width())
+    debug(get_screen_height())
     return
 
 def character_act(dt: float)
     robot -> act(dt)
+    cam_x = max(0. + float(get_screen_width() / 4), 
+        min(1408. - float(get_screen_width() / 4), robot.position.x))
+    cam_y = max(0. + float(get_screen_height() / 4), 
+        min(768. - float(get_screen_height() / 4), robot.position.y))
+    
+    setup_2d_camera(float2(cam_x, cam_y), 2.)
     return
 
 def character_draw()
