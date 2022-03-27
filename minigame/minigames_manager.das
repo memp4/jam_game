@@ -35,24 +35,18 @@ var minitable <- {{
 def minigame_init()
     return
 
-def minigame_act()
-    m_update(minitable["minigame 1"])
-    return
+// def minigame_act(minigame_choice: string; var Gamestate: string)
+//     if minitable[minigame_choice].isFinished == true
+//         if get_key(VK_E)
+//             Gamestate = "play"
+//     else
+//         minitable[minigame_choice] -> update()
+//     return
 
-def minigame_draw()
-    m_visual(minitable["minigame 1"])
-    return
-
-def m_visual(var minigame: Minigame?)
-    if minigame.isFinished == true
+def minigame_draw(minigame_choice: string)
+    fill_rect(0, 0, get_screen_width(), get_screen_height(), 0x064e51)
+    if minitable[minigame_choice].isFinished == true
         text_out(get_screen_width() / 2 - 40, 100, "You Win", 0xffffff)
     else
-        minigame -> draw()
-    return
-
-def m_update(var minigame: Minigame?)
-    if minigame.isFinished == true
-        return
-    else
-        minigame -> update()
+        minitable[minigame_choice] -> draw()
     return
