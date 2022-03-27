@@ -3,11 +3,11 @@ require col_object
 
 
 
-def col_object_init()
+def objects_init()
     return
 
-def col_object_update()
+def objects_update()
     return
 
-def col_object_draw()
+def objects_draw()
     return

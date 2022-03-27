@@ -9,7 +9,7 @@ class Character
 
     sprite_grid: table<int; array<float4>>
 
-    velocity: float = 400. // 90 is noraml
+    velocity: float = 140. // 90 is noraml
     tab_pos: int2 = int2(0, 1)
 
     fps: float = 12. // 12fps normally
@@ -78,11 +78,11 @@ class Character
 
     def collision(obj_position: float2; obj_size: float2): bool
         if (self.position.x + self.size.x < obj_position.x || 
-            self.position.x + self.size.x > obj_position.x + obj_size.x)
+            self.position.x > obj_position.x + obj_size.x)
             return false
 
         if (self.position.y + self.size.y < obj_position.y || 
-            self.position.y + self.size.y >  obj_position.y + obj_size.y)
+            self.position.y >  obj_position.y + obj_size.y)
             return false
 
         return true
@@ -104,7 +104,7 @@ def character_act(dt: float)
     cam_y = max(0. + float(get_screen_height() / 4), 
         min(768. - float(get_screen_height() / 4), robot.position.y))
     
-    setup_2d_camera(float2(cam_x, cam_y), 1.)
+    setup_2d_camera(float2(cam_x, cam_y), 2.)
     return
 
 def character_draw()
