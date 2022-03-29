@@ -29,3 +29,8 @@ class Message
             draw_image(img, position.x, position.y, 0xffffff, size)
             text_out(position.x + 15., position.y + 10., self.text, 0xffffff)
         return
+    
+    def draw_window(Text: string)
+        draw_image(img, position.x, position.y, 0xffffff, size)
+        text_out(position.x + 80., position.y + 100., Text, 0xffffff)
+        return

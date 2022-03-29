@@ -11,8 +11,10 @@ require message
 
 //Core game
 var map <- create_managed_image("sprites/map.png")
-var gamestate: string = "play"
+var gamestate: string = "start"
 var minigame_choice: string
+var screen_width = float(get_screen_width())
+var screen_height = float(get_screen_height())
 
 //Objects
 var message <- create_managed_image("sprites/message.png")
@@ -23,6 +25,63 @@ var mess1 = new Message(robot.position, float2(180., 60.), "sprites/message.png"
 var tex2 = "\t\tGene here!\n\t\tPress E"
 var mess2 = new Message(robot.position, float2(180., 60.), "sprites/message.png", tex2)
 
+var mess_window = new Message(float2(0., 0.), float2(screen_width, screen_height), "sprites/message_window2.png", "")
+
+var start_text = "              Mission: Colombo circle
+
+Big brother: Greetings Pi718, your mission on this planet will be collect genetic code of the living beings who once lived here.
+    We haven't explore this area of galactic yet, so you are first one here newbie. Our metal friends will come here soon, in one or two hundred years.
+    Life on this planet was destroyed by some accident.
+    Try find everything that you can and we will try to restore the appearance of the local creatures.
+    But before sending you have to clear genetic materials, you will understand when you will see it.
+
+Pi718:  ...Kshhshst. Bip-bip, Okey. I will try my best. Kirk out (:_:).
+
+        Press SPACE or E to continue."
+
+var rock_text = "Big brother: Hmm... this one are pretty complex genes. Here is about 48 chromosomes.
+        Intersting, but our archives have information about this creature. It says he was called 'Monkey'. 
+        It had 2 hands and 2 legs, so he could walk.
+        Probably he is an ancestor of the upright species on this planet.
+        I mean he was.
+
+Pi718: I bet they had the potential to be a sentient species. Seems like they missed some spark (<_<).
+
+        Press E to continue."
+
+var pit_text = "Big brother: I just got your results from this pit. This creature is some sort of reptile.
+    From this model I can say that it had very strong hind legs and ah... it ate insects I guess.
+    Not sure that it was a dominant species.
+
+Pi718: The reptiles that I've met were very noble, I believe that their ancestors too.
+
+        Press E to continue."
+
+var bush_text = "Big brother: Wow, this beast hadn't arms and legs or any limb to hold something.
+    Also it hadn't a noramal brain. But the regeneration skills are amazing. I could say that he was technically immortal.
+    But something killed them all too. Funny creature he looked like energy umbrella on our spaceships.
+
+Pi718: But I wonder how they survived without legs on this desert planet (0.0).
+
+        Press E to continue."
+
+var bonfire_text = "Big brother: Looks like this creature was a predator. Gene decoder says that he was very aggressive.
+    But strange that he had wings and feathers and he couldn't fly.
+    Also they grew up in eggs like an reptiles.
+
+Pi718: Despite our species researches and tchnologies, we still haven't figured out which came first, the reptile or the egg.
+    It seems that this phrase was originally different, A-ha (^_^).
+
+        Press E to continue."
+
+var text_table <- {{
+    "rock" => rock_text;
+    "pit" => pit_text;
+    "bush" => bush_text;
+    "bonfire" => bonfire_text
+}}
+var text_choice: string
+
 var
     tree = new Col_object(float2(19. * 32., 11. * 32.), float2(7. * 32., 5. * 32.))
     bonfire = new Col_object(float2(32. * 32., 19. * 32.), float2(4. * 32., 4. * 32.))
@@ -31,6 +90,7 @@ var
     bush = new Col_object(float2(35. * 32., 2. * 32.), float2(6. * 32., 4. * 32.))
 
 //Minigames
+//First game
 var m1_grid = new Grid(5, 2, 100)
 var m1_p_checker = new Player_Checker(int2(1, 0), 0xd48837)
 var 
@@ -98,12 +158,16 @@ var minitable <- {{
 def initialize()
     set_window_title("Jam Game")
 
-    set_font_name("fonts/Robot Crush.ttf")
+    
     return
 
 [export]
 def act(dt: float)
-    if gamestate == "play"
+    if gamestate == "start"
+        if get_key_up(VK_SPACE) || get_key_up(VK_E)
+            gamestate = "play"
+    elif gamestate == "play"
+        set_font_name("fonts/Robot Crush.ttf")
         character_act(dt)
         objects_act()
     elif gamestate == "minigame"
@@ -115,13 +179,16 @@ def act(dt: float)
 
 [export]
 def draw()
-    if gamestate == "play"
+    if gamestate == "start"
+        set_font_name("fonts/SilomBol.ttf")
+        mess_window -> draw_window(start_text)
+    elif gamestate == "play"
         draw_image(map, 0, 0)
         objects_draw()
         character_draw()
     elif gamestate == "minigame"
         setup_2d_camera(float2(get_screen_width() / 2, get_screen_height() / 2), 1.0)
-        minigame_draw(minigame_choice)
+        minigame_draw(minigame_choice, text_choice)
     return
 
 //Objects function
@@ -135,25 +202,30 @@ def objects_act()
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 3"
+            text_choice = "bonfire"
     elif robot -> collision(rock.position, rock.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 1"
+            text_choice = "rock"
     elif robot -> collision(pit.position, pit.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 2"
+            text_choice = "pit"
     elif robot -> collision(bush.position, bush.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 4"
+            text_choice = "bush"
 
     genes_amount = minigames_check()
     if genes_amount == 0
         mess1.text = "\t\tGene here!\n\t\tPress E"
+        // if get_key_up(VK_E)
     else
         mess1.text = "\t\tFind 4 genes\n\t\t{genes_amount}/4"
     mess1 -> stick(robot.position, robot.size)
@@ -175,10 +247,11 @@ def minigame_act(minigame_choice: string)
         gamestate = "play"
     return
 
-def minigame_draw(minigame_choice: string)
+def minigame_draw(minigame_choice: string; text_choice)
     fill_rect(0, 0, get_screen_width(), get_screen_height(), 0x064e51)
     if minitable[minigame_choice].isFinished == true
-        text_out(get_screen_width() / 2 - 40, 100, "You Win", 0xffffff)
+        set_font_name("fonts/SilomBol.ttf")
+        mess_window -> draw_window(text_table[text_choice])
     else
         minitable[minigame_choice] -> draw()
     return
