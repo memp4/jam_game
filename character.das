@@ -9,7 +9,7 @@ class Character
 
     sprite_grid: table<int; array<float4>>
 
-    velocity: float = 140. // 90 is noraml
+    velocity: float = 90. // 90 is noraml
     tab_pos: int2 = int2(0, 1)
 
     fps: float = 12. // 12fps normally

@@ -125,7 +125,7 @@ var
 //Minigames
 //First game
 var m1_grid = new Grid(5, 2, 100)
-var m1_p_checker = new Player_Checker(int2(1, 0), 0xd48837)
+var m1_p_checker = new Player_Checker(int2(1, 0), 0x513100)
 var 
     m1_checker1 = new Checker(int2(1, 1), m1_p_checker.color)
     m1_checker2 = new Checker(int2(2, 0), 0xffffff)
@@ -136,7 +136,7 @@ var m1_minigame = new Minigame(m1_p_checker, m1_check_arr, m1_grid)
 
 //Second game
 var m2_grid = new Grid(4, 4, 100)
-var m2_p_checker = new Player_Checker(int2(1, 1), 0x2b84f0)
+var m2_p_checker = new Player_Checker(int2(1, 1), 0x098d3a)
 var 
     m2_checker1 = new Checker(int2(0, 0), 0xffffff)
     m2_checker2 = new Checker(int2(1, 2), 0xffffff)
@@ -148,7 +148,7 @@ var m2_minigame = new Minigame(m2_p_checker, m2_check_arr, m2_grid)
 
 //Third game
 var m3_grid = new Grid(5, 5, 100)
-var m3_p_checker = new Player_Checker(int2(2, 2), 0x18134c)
+var m3_p_checker = new Player_Checker(int2(2, 2), 0xf6b26b)
 var 
     m3_checker1 = new Checker(int2(2, 1), 0xffffff)
     m3_checker2 = new Checker(int2(3, 1), 0xffffff)
@@ -165,7 +165,7 @@ var m3_minigame = new Minigame(m3_p_checker, m3_check_arr, m3_grid)
 
 //Fourth game
 var m4_grid = new Grid(7, 2, 100)
-var m4_p_checker = new Player_Checker(int2(0, 0), 0x53423b)
+var m4_p_checker = new Player_Checker(int2(0, 0), 0x41a0aa) 
 var 
     m4_checker1 = new Checker(int2(1, 0), 0xffffff)
     m4_checker2 = new Checker(int2(3, 0), 0xffffff)
@@ -206,6 +206,13 @@ var minitable <- {{
     "minigame 5" => m5_minigame
     }}
 
+// Sounds
+var ambient <- create_sound("sounds/ambient.mp3")
+var handle_ambient: PlayingSoundHandle
+var ambient_pos: float
+
+var credit_soundtrack <- create_sound("sounds/Lungo Filaccio.mp3")
+
 [export]
 def initialize()
     set_window_title("Jam Game")    
@@ -217,18 +224,22 @@ def act(dt: float)
     if gamestate == "start"
         if get_key_up(VK_SPACE) || get_key_up(VK_E)
             gamestate = "play"
+            handle_ambient = play_sound_loop(ambient, 0.4, 0.5)
     elif gamestate == "play"
+        // ambient_pos = get_sound_play_pos(handle_ambient)
         set_font_name("fonts/Robot Crush.ttf")
         character_act(dt)
         objects_act()
+        // set_sound_play_pos(handle_ambient, ambient_pos)
     elif gamestate == "minigame"
         minigame_act(minigame_choice)
         if m5_minigame.isFinished
             gamestate = "final"
     elif gamestate == "final"
         if get_key_up(VK_SPACE) || get_key_up(VK_E)
-            gamestate = "credits"        
-    
+            gamestate = "credits"
+            stop_sound(handle_ambient)
+            play_sound_loop(credit_soundtrack, 0.2)
     if get_key(VK_ESCAPE)
         schedule_quit_game()
         
@@ -266,6 +277,8 @@ def objects_act()
             if get_key_up(VK_E)
                 minigame_choice = "minigame 5"
                 gamestate = "minigame"
+                ambient_pos = get_sound_play_pos(handle_ambient)
+                stop_sound(handle_ambient)
         else
             mess1.text = "\t\tFind 4 genes\n\t\t{genes_amount}/4"
     elif robot -> collision(bonfire.position, bonfire.size)
@@ -274,24 +287,36 @@ def objects_act()
             gamestate = "minigame"
             minigame_choice = "minigame 3"
             text_choice = "bonfire"
+
+            ambient_pos = get_sound_play_pos(handle_ambient)
+            stop_sound(handle_ambient)
     elif robot -> collision(rock.position, rock.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 1"
             text_choice = "rock"
+
+            ambient_pos = get_sound_play_pos(handle_ambient)
+            stop_sound(handle_ambient)
     elif robot -> collision(pit.position, pit.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 2"
             text_choice = "pit"
+
+            ambient_pos = get_sound_play_pos(handle_ambient)
+            stop_sound(handle_ambient)
     elif robot -> collision(bush.position, bush.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
             gamestate = "minigame"
             minigame_choice = "minigame 4"
             text_choice = "bush"
+
+            ambient_pos = get_sound_play_pos(handle_ambient)
+            stop_sound(handle_ambient)
 
     genes_amount = minigames_check()
     mess1 -> stick(robot.position, robot.size)
@@ -311,6 +336,8 @@ def minigame_act(minigame_choice: string)
 
     if get_key_up(VK_E)
         gamestate = "play"
+        handle_ambient = play_sound_loop(ambient, 0.4, 0.5)
+        set_sound_play_pos(handle_ambient, ambient_pos)
     return
 
 def minigame_draw(minigame_choice: string; text_choice)
@@ -321,7 +348,7 @@ def minigame_draw(minigame_choice: string; text_choice)
     else
         minitable[minigame_choice] -> draw()
         set_font_name("fonts/SilomBol.ttf")
-        text_out(50, int(screen_height) - 200, instructions, 0xffffff)
+        text_out(20, int(screen_height) - 100, instructions, 0xffffff)
     return
 
 def minigames_check(): int
