@@ -27,7 +27,7 @@ var mess2 = new Message(robot.position, float2(180., 60.), "sprites/message.png"
 
 var mess_window = new Message(float2(0., 0.), float2(screen_width, screen_height), "sprites/message_window2.png", "")
 
-var start_text = "              Mission: Colombo circle
+var start_text = "              Mission: Colombo Circle
 
 Big brother: Greetings Pi718, your mission on this planet will be collect genetic code of the living beings who once lived here.
     We haven't explore this area of galactic yet, so you are first one here newbie. Our metal friends will come here soon, in one or two hundred years.
@@ -73,6 +73,39 @@ Pi718: Despite our species researches and tchnologies, we still haven't figured 
     It seems that this phrase was originally different, A-ha (^_^).
 
         Press E to continue."
+
+var final_text = "              Secret Mission: Three of Life
+
+Big brother: You found secret gene code of 'Human' that opened our oldest archives and information. This planet was called Earth and
+    and there lived our creators. They left a message to us. Listen:
+
+        'We are sending this self-evolving AI into space in the hope that one day it will fly back and restore humanity.
+        We lost 3rd Jedi War with human clones. Replicants gonna kill all original humans. But they can't reproduce naturally.
+        The Planet is depleted, we made a lot mistakes in last 3 decades. 2049 year probably gonna be last year for the humanity.'
+
+    So your new mission will be to start restoring ecosystem of this planet. You can start from the genes that you have found yet.
+
+Pi718:  It's so unexpected, we found our main mission. Let's restore the humanity 0_0 .
+
+        Press SPACE or E to continue."
+
+var credits = "
+                            Thanks for playing >:)
+
+        Game design: Sultan                         Creative director: Sultan
+        Q&A: Sultan                                 Text written by Sultan
+        Script: Sultan                              Credits written by Sultan
+        Engine programmer: Sultan                   
+        Level design: Sultan
+
+        Press ESC to quit
+"
+
+var instructions = "
+    Your goal in this game to make all checks in one color
+    Press Q to swap checks
+    Press SPACE to jump over the check and change it color. You can't jump over the colored checks.
+    Press E to back to exploring"
 
 var text_table <- {{
     "rock" => rock_text;
@@ -130,9 +163,9 @@ var m3_check_arr <- [{auto m3_checker1; m3_checker2; m3_checker3; m3_checker4;
 
 var m3_minigame = new Minigame(m3_p_checker, m3_check_arr, m3_grid)
 
-//Fourth fame
+//Fourth game
 var m4_grid = new Grid(7, 2, 100)
-var m4_p_checker = new Player_Checker(int2(0, 0), 0x2b84f0)
+var m4_p_checker = new Player_Checker(int2(0, 0), 0x53423b)
 var 
     m4_checker1 = new Checker(int2(1, 0), 0xffffff)
     m4_checker2 = new Checker(int2(3, 0), 0xffffff)
@@ -147,22 +180,40 @@ var m4_check_arr <- [{auto m4_checker1; m4_checker2; m4_checker3; m4_checker4;
     m4_checker5; m4_checker6; m4_checker7; m4_checker8}]
 var m4_minigame = new Minigame(m4_p_checker, m4_check_arr, m4_grid)
 
+//Fivth game
+var m5_grid = new Grid(5, 5, 100)
+var m5_p_checker = new Player_Checker(int2(0, 0), 0x53423b)
+var 
+    m5_checker1 = new Checker(int2(1, 0), 0xffffff)
+    m5_checker2 = new Checker(int2(3, 0), 0xffffff)
+    m5_checker3 = new Checker(int2(4, 1), 0xffffff)
+    m5_checker4 = new Checker(int2(4, 3), 0xffffff)
+    m5_checker5 = new Checker(int2(3, 4), 0xffffff)
+    m5_checker6 = new Checker(int2(1, 4), 0xffffff)
+    m5_checker7 = new Checker(int2(0, 3), 0xffffff)
+    m5_checker8 = new Checker(int2(1, 2), 0xffffff)
+    m5_checker9 = new Checker(int2(2, 3), 0xffffff)
+
+var m5_check_arr <- [{auto m5_checker1; m5_checker2; m5_checker3; m5_checker4;
+    m5_checker5; m5_checker6; m5_checker7; m5_checker8; m5_checker9}]
+var m5_minigame = new Minigame(m5_p_checker, m5_check_arr, m5_grid)
+
 var minitable <- {{
     "minigame 1" => m1_minigame;
     "minigame 2" => m2_minigame;
     "minigame 3" => m3_minigame;
-    "minigame 4" => m4_minigame
+    "minigame 4" => m4_minigame;
+    "minigame 5" => m5_minigame
     }}
 
 [export]
 def initialize()
-    set_window_title("Jam Game")
-
-    
+    set_window_title("Jam Game")    
     return
 
 [export]
 def act(dt: float)
+
     if gamestate == "start"
         if get_key_up(VK_SPACE) || get_key_up(VK_E)
             gamestate = "play"
@@ -172,9 +223,15 @@ def act(dt: float)
         objects_act()
     elif gamestate == "minigame"
         minigame_act(minigame_choice)
+        if m5_minigame.isFinished
+            gamestate = "final"
+    elif gamestate == "final"
+        if get_key_up(VK_SPACE) || get_key_up(VK_E)
+            gamestate = "credits"        
     
     if get_key(VK_ESCAPE)
         schedule_quit_game()
+        
     return
 
 [export]
@@ -189,6 +246,13 @@ def draw()
     elif gamestate == "minigame"
         setup_2d_camera(float2(get_screen_width() / 2, get_screen_height() / 2), 1.0)
         minigame_draw(minigame_choice, text_choice)
+    elif gamestate == "final"
+        set_font_name("fonts/SilomBol.ttf")
+        mess_window -> draw_window(final_text)
+    elif gamestate == "credits"
+        set_font_name("fonts/Carnevalee Freakshow.ttf")
+        set_font_size(35)
+        text_out(150, 20, credits, 0xffffff)
     return
 
 //Objects function
@@ -197,6 +261,13 @@ def objects_act()
     mess2.isVisible = false
     if robot -> collision(tree.position, tree.size)
         mess1.isVisible = true
+        if genes_amount == 0
+            mess1.text = "\t\tGene here!\n\t\tPress E"
+            if get_key_up(VK_E)
+                minigame_choice = "minigame 5"
+                gamestate = "minigame"
+        else
+            mess1.text = "\t\tFind 4 genes\n\t\t{genes_amount}/4"
     elif robot -> collision(bonfire.position, bonfire.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
@@ -223,11 +294,6 @@ def objects_act()
             text_choice = "bush"
 
     genes_amount = minigames_check()
-    if genes_amount == 0
-        mess1.text = "\t\tGene here!\n\t\tPress E"
-        // if get_key_up(VK_E)
-    else
-        mess1.text = "\t\tFind 4 genes\n\t\t{genes_amount}/4"
     mess1 -> stick(robot.position, robot.size)
     mess2 -> stick(robot.position, robot.size)
     return
@@ -254,6 +320,8 @@ def minigame_draw(minigame_choice: string; text_choice)
         mess_window -> draw_window(text_table[text_choice])
     else
         minitable[minigame_choice] -> draw()
+        set_font_name("fonts/SilomBol.ttf")
+        text_out(50, int(screen_height) - 200, instructions, 0xffffff)
     return
 
 def minigames_check(): int
