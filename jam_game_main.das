@@ -27,65 +27,71 @@ var mess2 = new Message(robot.position, float2(180., 60.), "sprites/message.png"
 
 var mess_window = new Message(float2(0., 0.), float2(screen_width, screen_height), "sprites/message_window2.png", "")
 
-var start_text = "              Mission: Colombo Circle
+var start_text = "              Миссия: Колумбийский круг
 
-Big brother: Greetings Pi718, your mission on this planet will be collect genetic code of the living beings who once lived here.
-    We haven't explore this area of galactic yet, so you are first one here newbie. Our metal friends will come here soon, in one or two hundred years.
-    Life on this planet was destroyed by some accident.
-    Try find everything that you can and we will try to restore the appearance of the local creatures.
-    But before sending you have to clear genetic materials, you will understand when you will see it.
+Большой брат: Здравствуй Pi718, твоей миссией на этой заброшенной планете будет собрать информацию о живых существах, которые когда-то жили здесь.
+    Мы еще не были в этой части галактики, поэтому можешь считать себя первопроходцем ;). 
+    Остальные исследователи прибудут позже.
+    Судя по всему жизнь была уничтожена из-за какого-то несчастного случая.
+    Постарайся найти все генетические материалы, что сможешь, а мы попробуем восстановить внешний вид этих созданий.
+    Так как на этой планете жизнь давно вымерла, то тебе придется сначала очистить материалы от примесей.
 
-Pi718:  ...Kshhshst. Bip-bip, Okey. I will try my best. Kirk out (:_:).
+Pi718:  ...Кшшшт. Бип-бип вас понял. Бдует сделано в лучшем виде!(:_:).
 
         Press SPACE or E to continue."
 
-var rock_text = "Big brother: Hmm... this one are pretty complex genes. Here is about 48 chromosomes.
-        Intersting, but our archives have information about this creature. It says he was called 'Monkey'. 
-        It had 2 hands and 2 legs, so he could walk.
-        Probably he is an ancestor of the upright species on this planet.
-        I mean he was.
+var rock_text = "Большой брат: Хмм... Этот похож на разумное существо.
+        Странно, но в наших архивах почему-то есть немного информации о нем. Здесь написано, что его зовут 'Monke'. 
+        У этого видда было 2 руки и 2 ноги, так что он мог ходить прямо.
+        Но довольно примитивен. Возможно он был предком прямоходящих существ на этой планете.
 
-Pi718: I bet they had the potential to be a sentient species. Seems like they missed some spark (<_<).
-
-        Press E to continue."
-
-var pit_text = "Big brother: I just got your results from this pit. This creature is some sort of reptile.
-    From this model I can say that it had very strong hind legs and ah... it ate insects I guess.
-    Not sure that it was a dominant species.
-
-Pi718: The reptiles that I've met were very noble, I believe that their ancestors too.
+Pi718: Ставлю 10 токенов на то, что они кидались говном.
 
         Press E to continue."
 
-var bush_text = "Big brother: Wow, this beast hadn't arms and legs or any limb to hold something.
-    Also it hadn't a noramal brain. But the regeneration skills are amazing. I could say that he was technically immortal.
-    But something killed them all too. Funny creature he looked like energy umbrella on our spaceships.
+var pit_text = "Большой брат: Я только что получил твои результаты. Это родственники рептилий.
+    Судя по строению мышц у него были сильные задние лапы. Наверное он далеко прыгал.
+    Не думаю, что они были опасными хищниками.
 
-Pi718: But I wonder how they survived without legs on this desert planet (0.0).
-
-        Press E to continue."
-
-var bonfire_text = "Big brother: Looks like this creature was a predator. Gene decoder says that he was very aggressive.
-    But strange that he had wings and feathers and he couldn't fly.
-    Also they grew up in eggs like an reptiles.
-
-Pi718: Despite our species researches and tchnologies, we still haven't figured out which came first, the reptile or the egg.
-    It seems that this phrase was originally different, A-ha (^_^).
+Pi718: Как думаешь рептилиям вообще можно доверять? (<_<)
 
         Press E to continue."
 
-var final_text = "              Secret Mission: Three of Life
+var bush_text = "Большой брат: Ого, а у этого создания не было ни рук, ни ног, ни даже нормльного мозга.
+    Только что-то похожее на минищупальца и купол вместо головы.
+    Но он регенерировал так хорошо, что его можно было считать почти бессмертным.
+    Что ж, катастрофа не пощадила и его.
 
-Big brother: You found secret gene code of 'Human' that opened our oldest archives and information. This planet was called Earth and
-    and there lived our creators. They left a message to us. Listen:
+Pi718: И как же они жили без ног на этой пустынной планете? (0.0)
 
-        'We are sending this self-evolving AI into space in the hope that one day it will fly back and restore humanity.
-        We lost 3rd Jedi War with human clones. Replicants gonna kill all original humans. But they can't reproduce naturally.
-        The Planet is depleted, we made a lot mistakes in last 3 decades. 2049 year probably gonna be last year for the humanity.'
+        Press E to continue."
 
-    So your new mission will be to start restoring ecosystem of this planet. You can start from the genes that you have found yet.
+var bonfire_text = "Большой брат: А этот похож на сильного хищника. У него был острый клюв и быстрые лапки.
+    Но несмотря на наличие перьев и крыльев, похоже, что он не умел летать.
+    А еще похоже, что их было очень много на этой планете.
+    Это без сомнения успешный вид.
 
-Pi718:  It's so unexpected, we found our main mission. Let's restore the humanity 0_0 .
+Pi718: Думаю из него можно было получить вкусное хрустящее мясо. (^_^)
+
+        Press E to continue."
+
+var final_text = "              Секретная миссия: Древо жизни
+
+Большой брат: Похоже, что ты нашел ген какого-то существа под названием 'Человек' и это было ключом к закрытым архивам.
+    Здесь много информации обо всех существах, которые здесь жили, в особенности о Человеках. А также они оставили нам сообщение:
+
+        'К сожалению мы вынуждены воспользоавться последним шансом восстановить человечество. 
+        Мы собираемся отправить саморазвивающийся ИИ в космос, чтобы в будущем он смог снова возродить жизнь здесь.
+        Нас погубили наши клоны, которых мы называли 'Репликантами'.
+        Оказалось, что китайцы давно научились клонировать людей, но из-за плохих условиев труда репликанты восстали против всех людей.
+        Они не могут размножаться, а ресурсы планеты истощились после первой Джедайской войны.
+        Экспременты с машиной времени вышли неудачными, а мы так и не нашли способ заселить другие планеты.
+        Похоже, что 2049 год последний для человечества.'
+
+    Pi718 теперь твоей миссией будет восстановление человечества. Совсем скоро к тебе прибудет помощь, примерно через 5 световых лет.
+    Ты должен начать постройку базы и восстановление здешней экосистемы.
+
+Pi718:  Ого, мы должны создать тех, кто создал нас. Это же может продолжаться бесконечно! 0_0
 
         Press SPACE or E to continue."
 
@@ -105,6 +111,7 @@ var instructions = "
     Your goal in this game to make all checks in one color
     Press Q to swap checks
     Press SPACE to jump over the check and change it color. You can't jump over the colored checks.
+    Press R to reset checks positions
     Press E to back to exploring"
 
 var text_table <- {{
@@ -248,7 +255,8 @@ def act(dt: float)
 [export]
 def draw()
     if gamestate == "start"
-        set_font_name("fonts/SilomBol.ttf")
+        set_font_name("fonts/PostPixel.ttf")
+        set_font_size(16)
         mess_window -> draw_window(start_text)
     elif gamestate == "play"
         draw_image(map, 0, 0)
@@ -258,7 +266,8 @@ def draw()
         setup_2d_camera(float2(get_screen_width() / 2, get_screen_height() / 2), 1.0)
         minigame_draw(minigame_choice, text_choice)
     elif gamestate == "final"
-        set_font_name("fonts/SilomBol.ttf")
+        set_font_name("fonts/PostPixel.ttf")
+        set_font_size(16)
         mess_window -> draw_window(final_text)
     elif gamestate == "credits"
         set_font_name("fonts/Carnevalee Freakshow.ttf")
@@ -280,7 +289,7 @@ def objects_act()
                 ambient_pos = get_sound_play_pos(handle_ambient)
                 stop_sound(handle_ambient)
         else
-            mess1.text = "\t\tFind 4 genes\n\t\t{genes_amount}/4"
+            mess1.text = "\t\tFind 4 genes\n\t\tLeft {genes_amount}/4"
     elif robot -> collision(bonfire.position, bonfire.size)
         mess2.isVisible = true
         if get_key_up(VK_E)
@@ -343,7 +352,8 @@ def minigame_act(minigame_choice: string)
 def minigame_draw(minigame_choice: string; text_choice)
     fill_rect(0, 0, get_screen_width(), get_screen_height(), 0x064e51)
     if minitable[minigame_choice].isFinished == true
-        set_font_name("fonts/SilomBol.ttf")
+        set_font_name("fonts/PostPixel.ttf")
+        set_font_size(16)
         mess_window -> draw_window(text_table[text_choice])
     else
         minitable[minigame_choice] -> draw()
